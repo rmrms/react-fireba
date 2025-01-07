@@ -1,0 +1,179 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+/* Product Page alapelrendezés */
+.ProductPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+}
+
+/* Űrlap szekció */
+.item-input {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobilbarát egysoros elrendezés */
+  gap: 15px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.item-input label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.item-input input,
+.item-input textarea {
+  width: 100%; /* Teljes szélesség mobilon */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.item-input textarea {
+  resize: vertical;
+  max-width: 100%; /* Fixálva mobilhoz */
+  min-height: 100px; /* Magasság fixálása */
+}
+
+.item-input button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.item-input button:hover {
+  background-color: #45a049;
+}
+
+/* Tárgyak listázása */
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dinamikus oszlopok */
+  gap: 20px;
+}
+
+.item-card {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-card h1 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.item-card p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.item-card button {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.item-card button:hover {
+  background-color: #e53935;
+}
+
+/* Navigációs gomb */
+.nav-button {
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
+/* Média lekérdezések */
+@media (max-width: 768px) {
+  .item-input {
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .item-list {
+    grid-template-columns: 1fr; /* Mobil nézet: egysoros listázás */
+  }
+
+  .item-card {
+    padding: 15px;
+  }
+
+  .item-card h1 {
+    font-size: 18px;
+  }
+
+  .item-card p {
+    font-size: 14px;
+  }
+
+  .nav-button {
+    width: 100%; /* Teljes szélesség mobilon */
+  }
+}
+
+@media (max-width: 480px) {
+  .item-input {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .item-input input,
+  .item-input textarea,
+  .item-input button {
+    font-size: 14px; /* Kisebb betűméret mobilon */
+  }
+
+  .item-card {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .item-card h1 {
+    font-size: 16px;
+  }
+
+  .item-card p {
+    font-size: 12px;
+  }
+
+  .nav-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
