@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../config/firebase";
 import {
@@ -23,13 +23,8 @@ export function ProductPage() {
 
   const itemsCollectionRef = collection(db, "items");
 
-  // Fetch items ↓↓↓
-  useEffect(() => {
-    getItemList();
-  }, []);
-  // Fetch items ↑↑↑
-
-  const getItemList = async () => {
+  // Memoized getItemList using useCallback
+  const getItemList = useCallback(async () => {
     try {
       const snapshot = await getDocs(itemsCollectionRef);
       const filteredData = snapshot.docs.map((doc) => ({
@@ -40,7 +35,12 @@ export function ProductPage() {
     } catch (err) {
       console.error("Error fetching items:", err.message);
     }
-  };
+  }, [itemsCollectionRef]); // useCallback ensures that getItemList is only redefined if itemsCollectionRef changes
+
+  // Fetch items
+  useEffect(() => {
+    getItemList();
+  }, [getItemList]); // This will run whenever getItemList changes
 
   // Sub New Item
   const onSubmitItem = async () => {
