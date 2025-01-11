@@ -32,7 +32,7 @@
 .form-container button {
   width: 100%;
   padding: 10px;
-  background-color: #6200ea;
+  background-color: #857b7b;
   color: white;
   border: none;
   border-radius: 4px;
@@ -41,7 +41,7 @@
 }
 
 .form-container button:hover {
-  background-color: #45009d;
+  background-color: #3c3939;
 }
 
 .error-message {
@@ -59,11 +59,27 @@
 .toggle-button {
   background: none;
   border: none;
-  color: blue;
+  color: #fff;
   text-decoration: underline;
   cursor: pointer;
   font-size: 1rem;
 }
 .toggle-button:hover {
-  color: darkblue;
+  color: #fff;
+}
+
+.log-out-button {
+  width: 100%;
+  padding: 10px;
+  margin: 0.5rem;
+  background-color: #857b7b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.log-out-button button:hover {
+  background-color: #3c3939;
 }

@@ -7,6 +7,10 @@ import "./style/style.css";
 export const ProfilePage = () => {
   const [userData, setUserData] = useState({});
   const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [location, setLocation] = useState("");
+  const [dob, setDob] = useState("");
+  const [preferences, setPreferences] = useState("");
   const [avatarURL, setAvatarURL] = useState("");
   const navigate = useNavigate();
 
@@ -25,6 +29,10 @@ export const ProfilePage = () => {
         setUserData(data);
         setName(data.name || "");
         setAvatarURL(data.avatarURL || "");
+        setBio(data.bio || "");
+        setLocation(data.location || "");
+        setDob(data.dateOfBirth || "");
+        setPreferences(data.preferences || "");
       } else {
         console.error("User document does not exist in Firestore.");
       }
@@ -44,12 +52,20 @@ export const ProfilePage = () => {
       await updateDoc(userDocRef, {
         name: name,
         avatarURL: avatarURL,
+        bio,
+        location,
+        dateOfBirth: dob,
+        preferences,
       });
 
       setUserData((prevData) => ({
         ...prevData,
         name: name,
         avatarURL: avatarURL,
+        bio,
+        location,
+        dateOfBirth: dob,
+        preferences,
       }));
       console.log("Profile updated succefully!");
     } catch (error) {
@@ -92,8 +108,43 @@ export const ProfilePage = () => {
           placeholder="Avatar Image URL"
         />
       </div>
-      <button onClick={updateProfile}>Update Profile</button>
-      <button onClick={() => navigate("/home")}>Back to Home Page</button>
+      <div>
+        <label>Location:</label>
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Your Location"
+        />
+      </div>
+      <div>
+        <label>Date of Birth</label>
+        <input
+          type="date"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Favorites:</label>
+        <input
+          type="text"
+          value={preferences}
+          onChange={(e) => setPreferences(e.target.value)}
+          placeholder="e.g. Books, Movies, Sports, Music..."
+        />
+      </div>
+      <div className="profile-buttons">
+        <button
+          onClick={() => {
+            updateProfile();
+            alert("Your profile has been updated!");
+          }}
+        >
+          Update Profile
+        </button>
+        <button onClick={() => navigate("/home")}>Back to Home Page</button>
+      </div>
     </div>
   );
 };

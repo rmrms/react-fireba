@@ -23,10 +23,11 @@ export function ProductPage() {
 
   const itemsCollectionRef = collection(db, "items");
 
-  // Tárgyak lekérdezése
+  // Fetch items ↓↓↓
   useEffect(() => {
     getItemList();
   }, []);
+  // Fetch items ↑↑↑
 
   const getItemList = async () => {
     try {
@@ -41,7 +42,7 @@ export function ProductPage() {
     }
   };
 
-  // Új tárgy hozzáadása
+  // Sub New Item
   const onSubmitItem = async () => {
     try {
       await addDoc(itemsCollectionRef, {
@@ -52,7 +53,7 @@ export function ProductPage() {
         category: newCategory,
         isAvailable: isAvailable,
         userId: auth?.currentUser?.uid,
-        createdAt: serverTimestamp(), // Automatikus időbélyeg
+        createdAt: serverTimestamp(), // <--- Automatic Timestamp
       });
       getItemList();
     } catch (err) {
@@ -60,7 +61,7 @@ export function ProductPage() {
     }
   };
 
-  // Tárgy törlése
+  // Del Items
   const deleteItem = async (id) => {
     try {
       const itemDoc = doc(db, "items", id);

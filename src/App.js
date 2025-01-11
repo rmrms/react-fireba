@@ -13,8 +13,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" element={<AuthForm />} />
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<AuthForm />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" />} />

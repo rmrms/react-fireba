@@ -73,7 +73,7 @@ export const AuthForm = () => {
       setError("");
       setSuccessMessage("Registration successful!");
       setFormData({ email: "", password: "", confirmPassword: "" });
-      navigate("/profile");
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     }
@@ -86,7 +86,7 @@ export const AuthForm = () => {
       await signInWithEmailAndPassword(auth, email, password);
       setError("");
       setSuccessMessage("Login successful!");
-      navigate("/profile");
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     }
@@ -107,7 +107,10 @@ export const AuthForm = () => {
       {currentUser ? (
         <div className="user-info">
           <p>Logged in as: {currentUser.email}</p>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="log-out-button" onClick={() => navigate("/home")}>Proceed to Home Page</button>
+          <button className="log-out-button" onClick={handleLogout}>
+            Sign out
+          </button>
         </div>
       ) : (
         <div className="form-container">

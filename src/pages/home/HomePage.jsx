@@ -77,13 +77,20 @@ export const HomePage = () => {
         <h1>Welcome to the Dashboard</h1>
         {currentUser ? (
           <>
-            <p>
-              Logged in as:{" "}
-              {avatarURL && (
-                <img className="avatar" src={avatarURL} alt="Avatar" />
-              )}{" "}
-              {userName || currentUser.email}
-            </p>
+            <div className="user-info">
+              <p>
+                Logged in as:{" "}
+                {avatarURL && (
+                  <img
+                    className="avatar"
+                    src={avatarURL}
+                    alt="Avatar"
+                    onClick={() => navigate("/profile")}
+                  />
+                )}{" "}
+                {userName || currentUser.email}
+              </p>
+            </div>
 
             <button onClick={handleLogout} className="logout-button">
               Logout
