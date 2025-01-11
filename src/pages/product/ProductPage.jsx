@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../config/firebase";
 import {
+  query,
+  where,
   collection,
   getDocs,
   addDoc,
@@ -26,7 +28,11 @@ export function ProductPage() {
   // Memoized getItemList using useCallback
   const getItemList = useCallback(async () => {
     try {
-      const snapshot = await getDocs(itemsCollectionRef);
+      const q = query(
+        itemsCollectionRef,
+        where("userId", "==", auth?.currentUser?.uid) // Csak a bejelentkezett felhasználó termékei
+      );
+      const snapshot = await getDocs(q);
       const filteredData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -35,7 +41,7 @@ export function ProductPage() {
     } catch (err) {
       console.error("Error fetching items:", err.message);
     }
-  }, [itemsCollectionRef]); // useCallback ensures that getItemList is only redefined if itemsCollectionRef changes
+  }, [itemsCollectionRef]);
 
   // Fetch items
   useEffect(() => {

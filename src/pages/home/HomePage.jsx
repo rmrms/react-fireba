@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import "./style/style.css";
 
 export const HomePage = () => {
@@ -40,7 +40,10 @@ export const HomePage = () => {
     if (!currentUser) return;
 
     const unsubscribe = onSnapshot(
-      collection(db, "items"), // ← ← ← Connecting to the "items" collection
+      query(
+        collection(db, "items"), // ← ← ← Connecting to the "items" collection
+        where("userId", "==", currentUser.uid)
+      ),
       (snapshot) => {
         const data = snapshot.docs.map((doc) => {
           const docData = doc.data();
