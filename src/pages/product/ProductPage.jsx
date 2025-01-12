@@ -21,6 +21,7 @@ export function ProductPage() {
   const [newQuantity, setNewQuantity] = useState(1);
   const [newCategory, setNewCategory] = useState("");
   const [isAvailable, setIsAvailable] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const itemsCollectionRef = collection(db, "items");
@@ -78,8 +79,18 @@ export function ProductPage() {
     }
   };
 
+  // Filter Items
+
+  const filteredItems = itemList.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
   return (
     <div className="ProductPage">
+      <div>
+        <input type="text" value={searchTerm} placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value)} />
+        <ul>
+          {filteredItems.map((item) => (<li key={item.id}>{item.name}</li>))}
+        </ul>
+      </div>
       {/* Form section */}
       <div className="item-input">
         <input
