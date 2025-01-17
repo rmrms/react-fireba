@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { db, auth } from "../../../config/firebase";
+// import { useNavigate } from "react-router-dom";
+// import { db, auth } from "../../../config/firebase";
 import "./style/style.css";
 
 const colors = [
@@ -21,7 +21,7 @@ const BoxGame = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const timerRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     console.log(
@@ -132,10 +132,14 @@ const BoxGame = () => {
   };
 
   useEffect(() => {
-    if (isGameOver) {
-      displayScoreBoard();
-    }
+    const displayScoreBoard = () => {
+      const finalScore = calculateFinalScore();
+      alert(`Game Over! Your final score: ${finalScore}`);
+    };
+
+    displayScoreBoard();
   }, [isGameOver]);
+
   const ScoreBoard = () => {
     const finalScore = calculateFinalScore();
     return (
