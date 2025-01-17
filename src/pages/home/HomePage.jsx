@@ -6,19 +6,43 @@ import { doc, getDoc } from "firebase/firestore";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import "./style/style.css";
 
+/**
+ * HomePage component that displays the user's dashboard.
+ *
+ * @component
+ */
+
+// import { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { onAuthStateChanged, signOut } from 'firebase/auth';
+// import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
+// import { auth, db } from '../../firebase';
+
+/**
+ * HomePage component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export const HomePage = () => {
+  // State to store the current user
   const [currentUser, setCurrentUser] = useState(null);
+  // State to store the user's name
   const [userName, setUserName] = useState("");
+  // State to store notifications
   const [notifications, setNotifications] = useState([]);
+  // State to store the user's avatar URL
   const [avatarURL, setAvatarURL] = useState("");
+  // Hook to navigate programmatically
   const navigate = useNavigate();
 
-  // User Login Check
+  // Effect to check user login status
   useEffect(() => {
+    // Subscribe to auth state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
 
       if (user) {
+        // Fetch the user's name and avatar URL from Firestore
         const fetchUserName = async () => {
           const userDocRef = doc(db, "users", user.uid);
           const userSnap = await getDoc(userDocRef);
@@ -32,19 +56,22 @@ export const HomePage = () => {
         fetchUserName();
       }
     });
+    // Cleanup subscription on unmount
     return unsubscribe;
   }, []);
 
-  // Notification retrieval from FS
+  // Effect to retrieve notifications from Firestore
   useEffect(() => {
     if (!currentUser) return;
 
+    // Subscribe to changes in the "items" collection for the current user
     const unsubscribe = onSnapshot(
       query(
-        collection(db, "items"), // ← ← ← Connecting to the "items" collection
+        collection(db, "items"), // Connecting to the "items" collection
         where("userId", "==", currentUser.uid)
       ),
       (snapshot) => {
+        // Map snapshot data to notifications state
         const data = snapshot.docs.map((doc) => {
           const docData = doc.data();
           return {
@@ -61,14 +88,15 @@ export const HomePage = () => {
       }
     );
 
+    // Cleanup subscription on unmount
     return unsubscribe;
   }, [currentUser]);
 
-  // Logout handler
+  // Handler for logging out the user
   const handleLogout = async () => {
     try {
-      await signOut(auth); // LogOut
-      navigate("/register"); // Nav
+      await signOut(auth); // Log out the user
+      navigate("/register"); // Navigate to the register page
     } catch (error) {
       console.error("Error during logout:", error.message);
     }
@@ -118,16 +146,19 @@ export const HomePage = () => {
           <h2>Notifications</h2>
           {notifications.length > 0 ? (
             <ul>
-              {notifications.map((item) => (
-                <li key={item.id}>
-                  <p>
-                    <strong>Item Name:</strong> {item.name}
-                  </p>
-                  <p>
-                    <strong>Creation Date:</strong> {item.createdAt}
-                  </p>
-                </li>
-              ))}
+              {notifications
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 5)
+                .map((item) => (
+                  <li key={item.id}>
+                    <p>
+                      <strong>Item Name:</strong> {item.name}
+                    </p>
+                    <p>
+                      <strong>Creation Date:</strong> {item.createdAt}
+                    </p>
+                  </li>
+                ))}
             </ul>
           ) : (
             <p>No notifications yet.</p>

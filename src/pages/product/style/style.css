@@ -7,6 +7,7 @@ body {
 
 /* Product Page basic layout */
 .ProductPage {
+  background-color: #857b7b;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -26,6 +27,7 @@ body {
 }
 
 .item-input label {
+  color: #333;
   font-size: 14px;
   font-weight: bold;
 }
@@ -66,6 +68,7 @@ body {
     minmax(300px, 1fr)
   ); /*  <--- col's made dynamic */
   gap: 20px;
+  background-color: #7a7272;
 }
 
 .item-card {
@@ -87,7 +90,7 @@ body {
 .item-card p {
   margin: 0;
   font-size: 16px;
-  color: #555;
+  color: #393838;
 }
 
 .item-card button {
