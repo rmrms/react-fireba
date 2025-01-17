@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 // import { useNavigate } from "react-router-dom";
 // import { db, auth } from "../../../config/firebase";
 import "./style/style.css";
@@ -59,11 +59,12 @@ const BoxGame = () => {
     return color;
   };
 
-  const calculateFinalScore = () => {
+  const calculateFinalScore = useCallback(() => {
     const timePenalty = Math.min(timer, 10); // Penalty points for time taken
     const finalScore = score - timePenalty;
     return finalScore;
-  };
+  }, [score, timer]);
+
   const highlightPairs = (pairs) => {
     const highlightedBoxList = boxList.map((color, index) =>
       pairs.has(index) ? "yellow" : color
@@ -126,19 +127,17 @@ const BoxGame = () => {
     return foundPair;
   };
 
-  const displayScoreBoard = () => {
-    const finalScore = calculateFinalScore();
-    alert(`Game Over! Your final score: ${finalScore}`);
-  };
+  // const displayScoreBoard = () => {
+  //   const finalScore = calculateFinalScore();
+  //   alert(`Game Over! Your final score: ${finalScore}`);
+  // };
 
   useEffect(() => {
-    const displayScoreBoard = () => {
+    if (isGameOver) {
       const finalScore = calculateFinalScore();
       alert(`Game Over! Your final score: ${finalScore}`);
-    };
-
-    displayScoreBoard();
-  }, [isGameOver]);
+    }
+  }, [isGameOver, calculateFinalScore]);
 
   const ScoreBoard = () => {
     const finalScore = calculateFinalScore();
