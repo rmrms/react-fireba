@@ -65,12 +65,7 @@ const BoxGame = () => {
     return finalScore;
   }, [score, timer]);
 
-  const highlightPairs = (pairs) => {
-    const highlightedBoxList = boxList.map((color, index) =>
-      pairs.has(index) ? "yellow" : color
-    );
-    setBoxList(highlightedBoxList);
-  };
+  // Removed unused highlightPairs function
 
   const checkAndRemovePairs = (newBoxList) => {
     console.log("Checking for pairs in boxList:", newBoxList);
@@ -94,12 +89,29 @@ const BoxGame = () => {
         if (i >= 8) boxesToRemove.add(i - 8); // above pair
         if (i < 24) boxesToRemove.add(i + 8); // below pair
 
-        foundPair = true;
+        if (i % 8 !== 7 && newBoxList[i] === newBoxList[i + 1])
+          boxesToRemove.add(i + 1); // right pair
+        if (i % 8 !== 0 && newBoxList[i] === newBoxList[i - 1])
+          boxesToRemove.add(i - 1); // left pair
+        if (i >= 8 && newBoxList[i] === newBoxList[i - 8])
+          boxesToRemove.add(i - 8); // above pair
+        if (i < 24 && newBoxList[i] === newBoxList[i + 8])
+          boxesToRemove.add(i + 8); // below pair
+        setTimeout(() => {
+          const updatedBoxList = newBoxList.filter(
+            (_, index) => !boxesToRemove.has(index)
+          );
+          console.log("Updated box list after removing pairs:", updatedBoxList);
+          setBoxList(updatedBoxList);
+          setTimeout(() => {
+            checkAndRemovePairs(updatedBoxList);
+          }, 300); // Delay to visually remove pairs
+        }, 500);
       }
     }
 
-    if (foundPair) {
-      highlightPairs(boxesToRemove);
+    if (boxesToRemove.size > 0) {
+      setScore((prev) => prev + 10);
       setTimeout(() => {
         const updatedBoxList = newBoxList.filter(
           (_, index) => !boxesToRemove.has(index)
@@ -109,7 +121,8 @@ const BoxGame = () => {
         setTimeout(() => {
           checkAndRemovePairs(updatedBoxList);
         }, 300); // Delay to visually remove pairs
-      }, 500); // Delay to highlight pairs
+      }, 500);
+      foundPair = true;
     } else {
       setIsButtonDisabled(false);
     }
@@ -117,7 +130,9 @@ const BoxGame = () => {
     if (score >= 500) {
       const timeBonus = Math.max(0, 10 - timer); // Bonus points for faster completion
       const totalScore = score + timeBonus;
-      alert("Congratulations! Your total score: " + totalScore);
+      setTimeout(() => {
+        alert("Congratulations! Your total score: " + totalScore);
+      }, 100);
       clearInterval(timerRef.current);
       setIsGameOver(true);
       setIsButtonDisabled(true); // Disable the button immediately
@@ -126,11 +141,6 @@ const BoxGame = () => {
     }
     return foundPair;
   };
-
-  // const displayScoreBoard = () => {
-  //   const finalScore = calculateFinalScore();
-  //   alert(`Game Over! Your final score: ${finalScore}`);
-  // };
 
   useEffect(() => {
     if (isGameOver) {
@@ -178,9 +188,9 @@ const BoxGame = () => {
   };
 
   return (
-    <div>
+    <div className="box-body">
       <header className="bg-header">
-        <h1>Box Game</h1>
+        <h1 className="box-h1">Box Game</h1>
         <p>
           Generate boxes with random colors. Match two adjacent boxes of the
           same color to earn points. The game ends when the container is full or
@@ -192,6 +202,7 @@ const BoxGame = () => {
         <p>Time: {timer}s</p>
       </div>
       <button
+        className="box-button"
         onClick={handleAddBoxClick}
         disabled={isGameOver || isButtonDisabled}
       >

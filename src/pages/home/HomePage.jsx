@@ -175,6 +175,15 @@ export const HomePage = () => {
             Go to Profile Page
           </button>
         </section>
+        <section className="navigation">
+          <button
+            onClick={() => navigate("/navigationhandler")}
+            className="nav-button"
+          >
+            Visit the Mix Nav-Handler Page (Home of unfinished practice
+            projects)
+          </button>
+        </section>
       </main>
     </div>
   );
