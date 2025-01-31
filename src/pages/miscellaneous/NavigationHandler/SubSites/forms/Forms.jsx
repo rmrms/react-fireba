@@ -44,6 +44,10 @@ const FormHandler = () => {
     console.log("Form Submitted:", formData);
   };
 
+  const resetForm = () => {
+    setFormData(userData);
+  };
+
   if (isLoading)
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -105,6 +109,13 @@ const FormHandler = () => {
           <button type="submit" className="btn btn-success w-100 py-2">
             💾 Save Profile (It is not connected to either firebase or
             localstorage.)
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary w-100 mt-2"
+            onClick={resetForm}
+          >
+            🔄 Reset to Original
           </button>
         </form>
         <button

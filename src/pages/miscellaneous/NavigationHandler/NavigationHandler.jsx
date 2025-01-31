@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./style/navigation-handler.css";
-import FormHandler from "./SubSites/forms/Forms";
+// import FormHandler from "./SubSites/forms/Forms";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import Main from "./SubSites/qrcodegen/Main";
+// import Main from "./SubSites/qrcodegen/Main";
 
 const NavigationHandler = () => {
   const navigate = useNavigate();
